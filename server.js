@@ -5,13 +5,11 @@ const { Pool } = require('pg');
 const app = express();
 const PORT = 3000;
 
-const categoriaRouter = require('./routes/categoria.js');
 const productoRouter = require('./routes/producto.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/categoria', categoriaRouter);
 app.use('/producto', productoRouter);
 
 const pool = new Pool({
@@ -30,13 +28,10 @@ pool.connect((err, client, release) => {
   release();
 });
 
-const Categoria = require('./models/categoria');
 const Producto = require('./models/producto');
 
 (async () => {
   try {
-    await Categoria.sync();
-    console.log('Modelo de Categoria sincronizado correctamente');
     await Producto.sync({ force: true });
     console.log('Modelo de Producto sincronizado correctamente');
   } catch (error) {

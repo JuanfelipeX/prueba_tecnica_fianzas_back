@@ -3,7 +3,6 @@ const router = express.Router();
 const { Op } = require('sequelize');
 const Producto = require('../models/producto.js');
 
-
 // Obtener la lista completa de Producto
 router.get('/', (req, res) => {
   Producto.findAll()
@@ -17,9 +16,9 @@ router.get('/', (req, res) => {
 
 // Crear un nuevo producto
 router.post('/', (req, res) => {
-  const { nombre, categoria_id, precio, valor, stock } = req.body;
+  const { nombre, precio, valor, stock } = req.body;
 
-  Producto.create({ nombre, categoria_id, precio, valor, stock })
+  Producto.create({ nombre, precio, valor, stock })
     .then((producto) => {
       res.json(producto);
     })
@@ -49,13 +48,12 @@ router.get('/:id', (req, res) => {
 // Actualizar los detalles de un Producto específico
 router.put('/:id', (req, res) => {
   const productoId = req.params.id;
-  const { nombre, categoria_id, precio, valor, stock } = req.body;
+  const { nombre, precio, valor, stock } = req.body;
 
   Producto.findByPk(productoId)
     .then((producto) => {
       if (producto) {
         producto.nombre = nombre;
-        producto.categoria_id = categoria_id;
         producto.precio = precio;
         producto.valor = valor;
         producto.stock = stock;
